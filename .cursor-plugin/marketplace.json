@@ -1,24 +1,17 @@
 {
-  "name": "cursor-plugin-starters",
+  "name": "hive-cursor-plugin",
+  "displayName": "Hive Plugin",
+  "version": "0.1.0",
+  "description": "Hive Technology's Cursor plugin",
   "owner": {
     "name": "Hive Technology",
     "email": "engineering@hive.com"
   },
-  "metadata": {
-    "description": "Hive Technology's Cursor plugin",
-    "version": "0.1.0",
-    "pluginRoot": "plugins"
-  },
-  "plugins": [
-    {
-      "name": "starter-simple",
-      "source": "./plugins/starter-simple",
-      "description": "Minimal plugin with rules and skills only"
-    },
-    {
-      "name": "starter-advanced",
-      "source": "./plugins/starter-advanced",
-      "description": "Full-featured plugin with rules, skills, agents, commands, hooks, and MCP"
-    }
+  "license": "UNLICENSED",
+  "keywords": [
+    "productivity",
+    "project-management",
+    "ticketing",
+    "task-management"
   ]
 }
