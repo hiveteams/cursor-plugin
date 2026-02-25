@@ -1,11 +1,11 @@
 {
   "name": "cursor-plugin-starters",
   "owner": {
-    "name": "Your Org",
-    "email": "plugins@example.com"
+    "name": "Hive Technology",
+    "email": "engineering@hive.com"
   },
   "metadata": {
-    "description": "Starter marketplace template for Cursor plugins",
+    "description": "Hive Technology's Cursor plugin",
     "version": "0.1.0",
     "pluginRoot": "plugins"
   },
