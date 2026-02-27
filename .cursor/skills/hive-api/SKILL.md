@@ -9,6 +9,12 @@ Base URL: `https://app.hive.com/api/v1`
 
 All requests require SSL. API may evolve; avoid strict response key checks.
 
+## Version Scope
+
+- REST references in this skill are based on the public v1 REST surface (`/api/v1`).
+- The public `v2.0` docs currently point to GraphQL documentation rather than a separate REST surface.
+- GraphQL reference entry: `https://developers.hive.com/v2.0/reference/hive-graphql-documentation`
+
 ## Authentication
 
 Every request requires:
@@ -150,6 +156,28 @@ curl -H "api_key: API_KEY" "https://app.hive.com/api/v1/testcredentials?user_id=
 Full GraphQL docs: [https://graphql.hive.com/getting-started](https://graphql.hive.com/getting-started)
 
 Supports queries/mutations for projects, actions, sections, users, comments, and more. SSL required.
+
+### Introspection Workflow
+
+Use GraphQL introspection when field/type accuracy matters more than static docs.
+
+1. Run an introspection query against the GraphQL endpoint.
+2. Extract exact field names, enum values, argument types, and nullability.
+3. Use schema results as source of truth when docs and responses differ.
+4. Prefer validating uncertain assumptions with introspection before implementing queries/mutations.
+
+Example minimal introspection query:
+
+```graphql
+query IntrospectionQuery {
+  __schema {
+    types {
+      name
+      kind
+    }
+  }
+}
+```
 
 ## Additional Resources
 
