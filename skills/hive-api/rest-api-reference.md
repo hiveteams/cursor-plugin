@@ -1,10 +1,19 @@
 # Hive REST API Reference
 
-Base URL: `https://app.hive.com/api/v1`
+## API Versions
 
-All requests require `?user_id={USER_ID}&api_key={API_KEY}` as query parameters.
+| Version | Base URL | Notes |
+|---------|----------|-------|
+| v1 | `https://app.hive.com/api/v1` | Full CRUD, webhooks, messages |
+| v2 | `https://app.hive.com/api/v2` | Cursor pagination, bulk updates, dashboards, agile sprints |
+
+Both versions coexist. Use v2 when available for its cursor pagination and bulk operations.
+
+**Authentication:** `user_id` as query param, `api_key` as request header on all requests.
 
 ---
+
+# v1 Endpoints
 
 ## Actions
 
@@ -67,6 +76,14 @@ GET /workspaces/{workspaceId}/actions
   }
 ]
 ```
+
+### Get Action
+
+```
+GET /actions/{actionId}
+```
+
+Returns a single Action object. The `estimate` field is in seconds (`null` if not set).
 
 ### Create Action
 
@@ -552,3 +569,198 @@ When triggered, Hive sends a POST to your URL:
 ```
 
 For project triggers, the key is `"project"` instead of `"action"`.
+
+---
+
+# v2 Endpoints
+
+Base URL: `https://app.hive.com/api/v2`
+
+v2 uses cursor-based pagination with `first`, `last`, `after` params and returns `{ edges, pageInfo }` response shapes.
+
+## Bulk Update Actions
+
+```
+PATCH /actions
+```
+
+Update multiple actions in a single request, each with unique field updates.
+
+**Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `actions` | object[] | yes | Array of action updates, each must have `_id` |
+| `update_children` | boolean | no | Also update children statuses and followingUserIds |
+
+Each action object requires `_id` and accepts the same fields as the v1 `PUT /actions/{id}` endpoint: `status`, `title`, `projectId`, `assignees`, `labels`, `description`, `urgent`, `privacy`, `checked`, `scheduledDate`, `deadline`, `parent`, `customFields`, `shiftSubactionsDeadline`, `archived`, `phaseId`, `phaseName`, `followingUserIds`, `agileStoryPoints`, `agileSprintId`, `milestone`.
+
+**Response:**
+
+```json
+{
+  "message": "All actions successfully updated",
+  "updated": ["actionId1", "actionId2"]
+}
+```
+
+On partial success: `"2 out of 3 actions were successfully updated"`.
+
+---
+
+## Get Projects (v2)
+
+```
+GET /workspaces/{workspaceId}/projects
+```
+
+Same as v1 but returns cursor-paginated results.
+
+**Query params:**
+
+| Param | Type | Description |
+|-------|------|-------------|
+| `sortBy` | string | `createdAt+asc` or `modifiedAt+desc` |
+| `filters` | string | `filters[archived]=false`, `filters[deleted]=true` |
+| `first` | integer | Number of results from start (don't combine with `last`) |
+| `last` | integer | Number of results from end (don't combine with `first`) |
+| `after` | string | Cursor to paginate from |
+
+**Response:**
+
+```json
+{
+  "pageInfo": {
+    "startCursor": "MjAxNy0wMi...",
+    "endCursor": "MjAxNy0wMi...",
+    "totalCount": 168,
+    "hasNextPage": true,
+    "hasPreviousPage": false
+  },
+  "edges": [
+    {
+      "cursor": "MjAxNy0wMi...",
+      "node": {
+        "id": "fBunxm3KuQ7ig5qMG",
+        "workspace": "hABXCXKubTJ4t7K7R",
+        "name": "My First Project",
+        "description": "Used for example.",
+        "startDate": null,
+        "endDate": null,
+        "accessOption": "private",
+        "sharingType": "custom",
+        "members": ["3ngvd9PooRekQMaa5"],
+        "template": false,
+        "projectCustomFields": [],
+        "color": "#FDC76D",
+        "parentProject": null,
+        "phases": [],
+        "budget": 0,
+        "archived": false,
+        "simpleId": 199,
+        "statusUpdates": [],
+        "createdAt": "2017-02-26T17:25:49.505Z",
+        "modifiedAt": "2022-04-01T12:32:12.674Z",
+        "createdBy": "3ngvd9PooRekQMaa5",
+        "modifiedBy": "3ngvd9PooRekQMaa5"
+      }
+    }
+  ]
+}
+```
+
+---
+
+## Agile Sprints
+
+### Get Agile Sprint
+
+```
+GET /agile-sprints/{sprintId}
+```
+
+**Response:**
+
+```json
+{
+  "_id": "sprintId",
+  "name": "This is my agile sprint",
+  "workspace": "workspaceId",
+  "startDate": "2024-01-01T00:00:00.000Z",
+  "endDate": "2024-02-01T00:00:00.000Z",
+  "storyPointsGoal": 50,
+  "deleted": false,
+  "status": "Unstarted",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "modifiedAt": "2024-01-01T00:00:00.000Z",
+  "createdBy": "createdById",
+  "modifiedBy": "modifiedById"
+}
+```
+
+### Get Agile Sprints
+
+```
+GET /workspaces/{workspaceId}/agile-sprints
+```
+
+**Query params:**
+
+| Param | Type | Description |
+|-------|------|-------------|
+| `filters[sprintIds]` | string[] | Filter to specific sprint IDs |
+
+**Response:** Cursor-paginated `{ edges, pageInfo }` with sprint nodes.
+
+---
+
+## Dashboard Widgets
+
+### Export Widget Data (CSV)
+
+```
+GET /dashboard-widgets/{widgetId}/export
+```
+
+Exports data for any widget type (`barChart`, `pieChart`, `line`, `pivotNumbers`, `pivotTable`).
+
+**Query params:**
+
+| Param | Type | Description |
+|-------|------|-------------|
+| `format` | string | `csv` (default) |
+| `type` | string | `default` or `detailed` |
+
+**Response:**
+
+```json
+{
+  "fileUrl": "https://example.com/downloads/widget-export.csv",
+  "metadata": {
+    "widgetType": "barChart",
+    "exportType": "detailed",
+    "format": "csv"
+  }
+}
+```
+
+### Get Widget Data (JSON)
+
+```
+GET /dashboard-widgets/{widgetId}/data
+```
+
+Returns JSON data. Only for `barChart`, `pieChart`, and `line` types (not `pivotTable` or `pivotNumbers`).
+
+**Query params:**
+
+| Param | Type | Description |
+|-------|------|-------------|
+| `workspace_id` | string | Required. Workspace ID |
+| `user_filter_id` | string | Optional filter configuration |
+
+**Getting the Widget ID:** In the Hive dashboard, click the 3-dot menu on a widget → "Copy widget id".
+
+**Widget types:** `barChart`, `pieChart`, `line`, `pivotNumbers`, `pivotTable`
+
+**Error codes:** `400` invalid params, `401` invalid API key, `404` widget not found, `504` export timeout (large datasets).
