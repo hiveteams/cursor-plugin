@@ -135,11 +135,14 @@ def run_refresh(
     refresh_timeout_seconds: int,
     quiet: bool,
 ) -> Tuple[bool, str]:
+    baseline_dir = repo_root / "skills" / "hive-api" / "docs"
     cmd = [
         sys.executable,
         str(repo_root / "download_docs.py"),
         "--output-dir",
         str(output_dir),
+        "--baseline-dir",
+        str(baseline_dir),
         "--index-url",
         "https://developers.hive.com/reference/hive-graphql-documentation",
         "--throttle-seconds",
@@ -237,6 +240,7 @@ def main() -> int:
 
     refreshed = False
     refresh_error = None
+    diff_summary: Optional[Dict] = None
 
     if should_refresh and not any_error:
         refreshed, refresh_output = run_refresh(
@@ -247,6 +251,15 @@ def main() -> int:
         )
         if not refreshed:
             refresh_error = refresh_output
+        else:
+            manifest_path = docs_output_dir / "docs-diff-manifest.json"
+            manifest = read_json(manifest_path)
+            if manifest:
+                diff_summary = {
+                    "changed": len(manifest.get("changed", [])),
+                    "added": len(manifest.get("added", [])),
+                    "removed": len(manifest.get("removed", [])),
+                }
     elif should_refresh and any_error:
         refresh_error = "metadata check failed; skipping refresh"
 
@@ -259,6 +272,7 @@ def main() -> int:
         "lastResult": {
             "refreshed": refreshed,
             "refreshError": refresh_error,
+            "diffSummary": diff_summary,
         },
     }
     write_json(state_path, next_state)

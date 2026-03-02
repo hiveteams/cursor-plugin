@@ -18,14 +18,22 @@ All requests require SSL. API may evolve; avoid strict response key checks.
 ## Docs Freshness
 
 - This plugin ships with baseline docs in `skills/hive-api/docs`.
-- A `sessionStart` hook checks docs freshness and refreshes a per-user docs snapshot in cache when needed.
-- Plugin files should be treated as immutable at runtime; refresh writes are cache-only.
+- A `sessionStart` hook checks docs freshness and writes only changed/added docs to a per-user cache dir.
+- Plugin files are immutable at runtime; refresh writes are cache-only.
 - Cache root defaults:
   - macOS: `~/Library/Caches/hive-llm-plugins/`
   - Linux/Unix: `${XDG_CACHE_HOME:-~/.cache}/hive-llm-plugins/`
   - Windows: `%LOCALAPPDATA%\hive-llm-plugins\Cache\`
 - Override cache path with `HIVE_DOCS_CACHE_PATH`.
-- Prefer cached docs snapshot when present; otherwise use bundled docs from this skill.
+
+### Reading docs (overlay model)
+
+1. Check for `<cache_root>/hive-api/docs/docs-diff-manifest.json`.
+2. If it exists:
+   - Files listed under `changed` or `added`: read from the cache dir (`<cache_root>/hive-api/docs/<file>`).
+   - Files listed under `removed`: do not read from either location (they no longer exist upstream).
+   - All other files: read from the repo baseline (`skills/hive-api/docs/<file>`).
+3. If no manifest exists (first run not yet completed, or offline): read all docs from `skills/hive-api/docs/` as-is.
 
 ## Authentication
 
