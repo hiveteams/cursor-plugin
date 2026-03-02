@@ -1,9 +1,8 @@
 {
   "name": "hive-cursor-plugin",
-  "displayName": "Hive Plugin",
   "version": "0.1.0",
-  "description": "Hive Technology's Cursor plugin",
-  "owner": {
+  "description": "Hive Technology's Cursor plugin — API skills, solutions engineering agent, and automatic docs freshness checks.",
+  "author": {
     "name": "Hive Technology",
     "email": "engineering@hive.com"
   },
@@ -12,6 +11,7 @@
     "productivity",
     "project-management",
     "ticketing",
-    "task-management"
+    "task-management",
+    "hive"
   ]
 }
