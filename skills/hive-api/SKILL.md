@@ -15,6 +15,18 @@ All requests require SSL. API may evolve; avoid strict response key checks.
 - The public `v2.0` docs currently point to GraphQL documentation rather than a separate REST surface.
 - GraphQL reference entry: `https://developers.hive.com/v2.0/reference/hive-graphql-documentation`
 
+## Docs Freshness
+
+- This plugin ships with baseline docs in `skills/hive-api/docs`.
+- A `sessionStart` hook checks docs freshness and refreshes a per-user docs snapshot in cache when needed.
+- Plugin files should be treated as immutable at runtime; refresh writes are cache-only.
+- Cache root defaults:
+  - macOS: `~/Library/Caches/hive-llm-plugins/`
+  - Linux/Unix: `${XDG_CACHE_HOME:-~/.cache}/hive-llm-plugins/`
+  - Windows: `%LOCALAPPDATA%\hive-llm-plugins\Cache\`
+- Override cache path with `HIVE_DOCS_CACHE_PATH`.
+- Prefer cached docs snapshot when present; otherwise use bundled docs from this skill.
+
 ## Authentication
 
 Every request requires:
