@@ -1,0 +1,9 @@
+{
+  "sessionStart": [
+    {
+      "command": "python scripts/check_hive_docs_freshness.py --quiet --ttl-hours 24",
+      "timeout": 5000,
+      "continueOnError": true
+    }
+  ]
+}
