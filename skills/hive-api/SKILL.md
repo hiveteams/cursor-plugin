@@ -15,26 +15,6 @@ All requests require SSL. API may evolve; avoid strict response key checks.
 - The public `v2.0` docs currently point to GraphQL documentation rather than a separate REST surface.
 - GraphQL reference entry: `https://developers.hive.com/v2.0/reference/hive-graphql-documentation`
 
-## Docs Freshness
-
-- This plugin ships with baseline docs in `skills/hive-api/docs`.
-- A `sessionStart` hook checks docs freshness and writes only changed/added docs to a per-user cache dir.
-- Plugin files are immutable at runtime; refresh writes are cache-only.
-- Cache root defaults:
-  - macOS: `~/Library/Caches/hive-llm-plugins/`
-  - Linux/Unix: `${XDG_CACHE_HOME:-~/.cache}/hive-llm-plugins/`
-  - Windows: `%LOCALAPPDATA%\hive-llm-plugins\Cache\`
-- Override cache path with `HIVE_DOCS_CACHE_PATH`.
-
-### Reading docs (overlay model)
-
-1. Check for `<cache_root>/hive-api/docs/docs-diff-manifest.json`.
-2. If it exists:
-   - Files listed under `changed` or `added`: read from the cache dir (`<cache_root>/hive-api/docs/<file>`).
-   - Files listed under `removed`: do not read from either location (they no longer exist upstream).
-   - All other files: read from the repo baseline (`skills/hive-api/docs/<file>`).
-3. If no manifest exists (first run not yet completed, or offline): read all docs from `skills/hive-api/docs/` as-is.
-
 ## Authentication
 
 Every request requires:
