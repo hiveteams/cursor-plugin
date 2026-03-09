@@ -157,6 +157,10 @@ Full GraphQL docs: [https://graphql.hive.com/getting-started](https://graphql.hi
 
 Supports queries/mutations for projects, actions, sections, users, comments, and more. SSL required.
 
+Generated v2 operation reference from live introspection:
+
+- [GraphQL v2 Endpoints](docs/graphql-v2-endpoints.md)
+
 ### Introspection Workflow
 
 Use GraphQL introspection when field/type accuracy matters more than static docs.
@@ -182,7 +186,9 @@ query IntrospectionQuery {
 ## Additional Resources
 
 For detailed endpoint parameters, request/response schemas, and examples:
+
 - [Endpoint Details](reference/endpoints.md)
 - [Data Models](reference/data-models.md)
 - [Webhooks Guide](reference/webhooks.md)
+- [GraphQL v2 Endpoints](docs/graphql-v2-endpoints.md)
 - Raw OpenAPI docs in [docs/](docs/) directory

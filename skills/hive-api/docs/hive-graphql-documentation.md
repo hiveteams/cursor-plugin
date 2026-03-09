@@ -1,8 +1,21 @@
 # Hive GraphQL Documentation
 
-# Access the full Hive GraphQL documentation here:
+## Access the full Hive GraphQL documentation here
 
 [https://graphql.hive.com/getting-started](https://graphql.hive.com/getting-started)
+
+## Local v2 Introspection Snapshot
+
+This plugin also includes a generated reference built from live schema introspection of `https://prod-gql.hive.com/graphql`:
+
+- [GraphQL v2 Endpoints](graphql-v2-endpoints.md)
+- `graphql-v2-schema.json` (raw introspection output)
+
+Regenerate with:
+
+```bash
+python scripts/generate_graphql_v2_docs.py
+```
 
 The reference documentation here is designed for anyone interested in building custom integrations or tools on top of Hive using our public GraphQL API. With the Hive GraphQL API, you can unlock powerful ways to automate, extend, and connect Hive to your team’s unique workflows.
 
