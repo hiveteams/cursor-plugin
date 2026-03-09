@@ -1,8 +1,15 @@
 {
+  "version": 1,
   "hooks": {
     "sessionStart": [
       {
         "command": "python scripts/check_hive_docs_freshness.py --quiet --ttl-hours 24",
+        "timeout": 5
+      }
+    ],
+    "beforeMCPExecution": [
+      {
+        "command": "python3 scripts/hive_mcp_gate.py",
         "timeout": 5
       }
     ]

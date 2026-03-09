@@ -15,11 +15,16 @@
 #   4. Installs the Hive MCP server config into <repo>/.cursor/mcp.json
 #      (merges with existing config if present)
 #   5. Symlinks the hive-api-key rule into <repo>/.cursor/rules/
-#   6. Runs the docs-freshness script once to warm the cache
+#   6. Creates <repo>/.cursor/hive-profile.json for workspace metadata
+#   7. Runs the docs-freshness script once to warm the cache
+#
+#   The hooks.json also registers a beforeMCPExecution hook
+#   (hive_mcp_gate.py) that gates Hive MCP calls behind workspace
+#   profile setup and injects the activeWorkspaceId automatically.
 #
 # What it does (uninstall):
-#   Removes symlinks, hooks.json, the hive-api-key rule, and the 'hive'
-#   MCP entry that this script created.
+#   Removes symlinks, hooks.json, hive-api-key rule, hive-profile.json,
+#   and the 'hive' MCP entry that this script created.
 #
 set -euo pipefail
 
@@ -70,14 +75,17 @@ install() {
     local hooks_file="$CURSOR_DIR/hooks.json"
     local hook_cmd="python $PLUGIN_ROOT/scripts/check_hive_docs_freshness.py --quiet --ttl-hours 24"
 
+    local mcp_gate_cmd="python3 $PLUGIN_ROOT/scripts/hive_mcp_gate.py"
+
     if [[ -f "$hooks_file" ]]; then
         if grep -q "check_hive_docs_freshness" "$hooks_file" 2>/dev/null; then
             log "Hooks already configured (sessionStart hook present)"
         else
             warn "hooks.json already exists at $hooks_file"
-            warn "Add this sessionStart entry manually:"
+            warn "Add these hook entries manually:"
             echo ""
-            echo "    {\"command\": \"$hook_cmd\", \"timeout\": 5}"
+            echo "  sessionStart:        {\"command\": \"$hook_cmd\", \"timeout\": 5}"
+            echo "  beforeMCPExecution:  {\"command\": \"$mcp_gate_cmd\", \"timeout\": 5}"
             echo ""
         fi
     else
@@ -88,6 +96,12 @@ install() {
     "sessionStart": [
       {
         "command": "$hook_cmd",
+        "timeout": 5
+      }
+    ],
+    "beforeMCPExecution": [
+      {
+        "command": "$mcp_gate_cmd",
         "timeout": 5
       }
     ]
@@ -135,6 +149,15 @@ with open('$tmp_file', 'w') as f:
     ln -sfn "$PLUGIN_ROOT/rules/hive-api-key.mdc" "$CURSOR_DIR/rules/hive-api-key.mdc"
     log "Linked rule:   hive-api-key -> $CURSOR_DIR/rules/hive-api-key.mdc"
 
+    # -- Profile --
+    local profile_file="$CURSOR_DIR/hive-profile.json"
+    if [[ -f "$profile_file" ]]; then
+        log "Profile already exists at $profile_file — skipping"
+    else
+        cp "$PLUGIN_ROOT/hive-profile.json" "$profile_file"
+        log "Created profile: $profile_file (workspaces populated on first use)"
+    fi
+
     # -- Warm cache --
     echo ""
     echo -e "${BOLD}Warming docs cache...${RESET}"
@@ -157,15 +180,12 @@ with open('$tmp_file', 'w') as f:
     echo "     → 'hive' MCP server should appear (will need API key on first use)"
     echo ""
     echo "  4. Cursor Settings → Hooks tab"
-    echo "     → sessionStart hook should show as registered"
+    echo "     → sessionStart and beforeMCPExecution hooks should show as registered"
     echo ""
-    echo "  5. Start a new Agent conversation — the sessionStart hook"
-    echo "     should fire (check Hooks output channel for errors)"
+    echo "  5. Ask: \"Create a project in Hive\""
+    echo "     → Hook should gate the call and prompt for workspace setup"
     echo ""
-    echo "  6. Ask: \"Create a project in Hive\""
-    echo "     → Agent should ask for your Hive API key if not yet configured"
-    echo ""
-    echo "  7. Ask: \"How do I create an action with the Hive API?\""
+    echo "  6. Ask: \"How do I create an action with the Hive API?\""
     echo "     → Agent should load the hive-rest-api skill automatically"
 }
 
@@ -198,7 +218,14 @@ uninstall() {
         rm "$CURSOR_DIR/rules/hive-api-key.mdc"
         log "Removed rule symlink: hive-api-key"
     else
-        warn "Rule symlink not found (already removed?)"
+        warn "Rule symlink hive-api-key not found (already removed?)"
+    fi
+
+    if [[ -f "$CURSOR_DIR/hive-profile.json" ]]; then
+        rm "$CURSOR_DIR/hive-profile.json"
+        log "Removed hive-profile.json"
+    else
+        warn "hive-profile.json not found (already removed?)"
     fi
 
     if [[ -f "$CURSOR_DIR/mcp.json" ]] && grep -q '"hive"' "$CURSOR_DIR/mcp.json" 2>/dev/null; then
