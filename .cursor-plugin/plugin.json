@@ -1,7 +1,7 @@
 {
   "name": "hive-cursor-plugin",
   "version": "0.1.0",
-  "description": "Hive's Cursor plugin — API skills, solutions engineering agent, and automatic docs freshness checks.",
+  "description": "Hive's Cursor plugin — API skills, solutions engineering agent, and MCP integration.",
   "author": {
     "name": "Hive",
     "email": "engineering@hive.com"
