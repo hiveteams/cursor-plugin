@@ -1,0 +1,22 @@
+---
+description: Ensures the Hive API key is configured. Fires when any Hive MCP tool call fails due to authentication.
+alwaysApply: false
+---
+
+# Prompt for the API key
+
+When the API key is missing, is the placeholder value, or the Hive MCP tool returns an authentication or authorization error, you MUST:
+
+- **Ask the user** for their Hive API key with this exact message:
+
+> I need your Hive API key to connect to Hive. You can find it by clicking your avatar in the top right corner of the Hive app, then clicking **My settings** → **API info** and copying the **API Key**.
+>
+> Please paste your Hive API key here.
+
+- **Wait** for the user to provide the key. Do not proceed until they do.
+- Once the user provides the key, **update** `.cursor/mcp.json` by replacing `YOUR_HIVE_API_KEY` (or the empty value) in the `mcpServers.hive.url` with the provided key.
+- After updating the file, tell the user:
+
+> I've saved your API key. **Please restart Cursor** (or reload the window) so the Hive MCP server reconnects with your new key.
+
+- Do not attempt Hive MCP calls until after the restart.
