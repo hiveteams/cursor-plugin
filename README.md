@@ -8,7 +8,7 @@ Hive's Cursor plugin — API skills, agents, and MCP integration.
 - `skills/hive-api/`: Hive REST & GraphQL API skill with endpoint schemas
 - `agents/`: project-manager and solutions-engineer agents
 - `hooks/hooks.json`: beforeMCPExecution (workspace profile gate) hooks
-- `scripts/`: setup, docs freshness, MCP gate, and utility scripts
+- `scripts/`: setup, GraphQL docs generation, MCP gate, and utility scripts
 
 - `mcp.json`: Hive MCP server config (API key added on first use)
 - `hive-profile.json`: template for persisted workspace metadata
