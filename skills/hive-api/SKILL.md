@@ -198,6 +198,7 @@ For detailed endpoint parameters, request/response schemas, and examples:
 
 - [Endpoint Details](reference/endpoints.md)
 - [Data Models](reference/data-models.md)
+- [REST v1 Endpoints](docs/v1/README.md)
 - [Object Schema Map](docs/objects/index.md)
 - [Webhooks Guide](reference/webhooks.md)
 - [GraphQL v2 Endpoints Index](docs/v2/graphql/index.md)
