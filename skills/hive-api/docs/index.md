@@ -1,3 +1,21 @@
+# Rest API Introduction
+
+Welcome to the Hive REST API docs! The reference documentation here is designed for those interested in developing integrations for Hive that are not already inside of the Hive core product. You can use the Hive API to accomplish awesome things for your team, like creating automated messages, kicking off action templates, and much more.
+
+## API compatibility
+
+This API will evolve. Future versions of this API may add new endpoints or parameters. Parameters and endpoint may be subject to change and support is not guaranteed (although we will try our best to maintain backward compatibility).
+
+Clients that want to be future-proof should avoid passing undocumented parameters (as they may cause different behavior in the future), and they should avoid strict checks on the keys of objects found in responses.
+
+## SSL only
+
+All requests to the Hive REST API are required to be done over [SSL](https://hosting.review/web-hosting-glossary/#12).
+
+## Base Endpoint
+
+All requests are to be sent to [https://app.hive.com/api/v1](https://app.hive.com/api/v1) as a prefix.
+
 # Introduction to Webhooks in Hive
 
 Webhooks are useful for getting real-time updates from Hive when records, like Actions or Projects, are inserted or updated. When you register a Webhook in your Hive Workspace, Hive will listen for events which match your registered Webhook's trigger and field information, and send HTTP POST requests to a URL which you specify in Webhook registration with a payload that contains data relevant to the operation.
