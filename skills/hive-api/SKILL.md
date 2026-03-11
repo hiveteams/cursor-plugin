@@ -184,12 +184,21 @@ query IntrospectionQuery {
 }
 ```
 
+## Object Schema Lookup
+
+When you need a REST object schema (for example `project`, `custom-tag`, `action`), use:
+
+1. `docs/objects/index.md` to map object name to canonical file.
+2. The canonical file under `docs/objects/*.md`.
+3. The `legacy_path` in that file only if you need the original raw table source.
+
 ## Additional Resources
 
 For detailed endpoint parameters, request/response schemas, and examples:
 
 - [Endpoint Details](reference/endpoints.md)
 - [Data Models](reference/data-models.md)
+- [Object Schema Map](docs/objects/index.md)
 - [Webhooks Guide](reference/webhooks.md)
 - [GraphQL v2 Endpoints Index](docs/v2/graphql/index.md)
 - Raw OpenAPI docs in [docs/](docs/) directory
