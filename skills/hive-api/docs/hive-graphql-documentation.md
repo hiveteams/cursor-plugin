@@ -8,25 +8,9 @@
 
 This plugin also includes a generated reference built from live schema introspection of `https://prod-gql.hive.com/graphql`:
 
-- [GraphQL v2 Endpoints](graphql-v2-endpoints.md)
-- `graphql-v2-schema.json` (raw introspection output)
-
-Regenerate with:
-
-```bash
-python scripts/generate_graphql_v2_docs.py
-```
+- [GraphQL v2 Endpoints Index](v2/graphql/index.md)
+- `graphql-v2-endpoints.md` and `graphql-v2-schema.json` are maintained as compatibility paths
 
 The reference documentation here is designed for anyone interested in building custom integrations or tools on top of Hive using our public GraphQL API. With the Hive GraphQL API, you can unlock powerful ways to automate, extend, and connect Hive to your team’s unique workflows.
 
 You can use the API to do awesome things like create and update projects, manage actions (tasks), organize sections, assign users, add comments, and much more.
-
-## API Compatibility
-
-The Hive GraphQL API is actively evolving. We may add new types, fields, or mutations in future versions. While we strive for backward compatibility, please note that schema changes may occur.
-
-To ensure your integration is future-proof, avoid relying on undocumented fields or making strict assumptions about the schema. Always refer to the latest GraphQL documentation for up-to-date details.
-
-## SSL Only
-
-All requests to the Hive GraphQL API must be made over SSL for your security.
