@@ -16,6 +16,12 @@ All requests to the Hive REST API are required to be done over [SSL](https://hos
 
 All requests are to be sent to [https://app.hive.com/api/v1](https://app.hive.com/api/v1) as a prefix.
 
+## Versioned Docs
+
+- REST v1 endpoints: [v1/README.md](v1/README.md)
+- GraphQL v2 docs: [v2/graphql/index.md](v2/graphql/index.md)
+- REST object schema map: [objects/index.md](objects/index.md)
+
 # Introduction to Webhooks in Hive
 
 Webhooks are useful for getting real-time updates from Hive when records, like Actions or Projects, are inserted or updated. When you register a Webhook in your Hive Workspace, Hive will listen for events which match your registered Webhook's trigger and field information, and send HTTP POST requests to a URL which you specify in Webhook registration with a payload that contains data relevant to the operation.

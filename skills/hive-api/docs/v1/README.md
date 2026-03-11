@@ -2,5 +2,5 @@
 
 This folder represents the REST API v1 surface (`/api/v1`).
 
-- Most existing REST endpoint docs currently live in the parent `docs/` folder.
-- As docs are reorganized, v1 materials should move under this folder.
+- REST v1 endpoint docs now live in this folder.
+- Top-level `docs/` keeps shared docs (intro/auth/errors), object schemas, and versioned folders.
