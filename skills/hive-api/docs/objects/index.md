@@ -13,6 +13,7 @@ Use this map first when you need a REST object schema.
 | Object | Canonical path | Legacy path |
 | --- | --- | --- |
 | action | [action.md](action.md) | `object-1.md` |
+| workspace | [workspace.md](workspace.md) | `object-workspace.md` |
 | custom-tag | [custom-tag.md](custom-tag.md) | `object-2.md` |
 | message | [message.md](message.md) | `object-3.md` |
 | project | [project.md](project.md) | `object-4.md` |
