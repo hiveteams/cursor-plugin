@@ -522,6 +522,198 @@ Underneath, you'll find the specific API endpoints that make it possible, plus a
 
 ---
 
+---
+
+# Part 2: Business Jobs-to-Be-Done
+
+> The first 15 sections above lean toward the engineering-PM interface. The 10 below are pure business repeatable motions -- the kind of work that eats Tuesday afternoons and produces no competitive advantage. Every one is a recurring "job" someone does today by hand.
+
+---
+
+## 16. Client QBR Prep (Quarterly Business Review)
+
+**The job:** Every quarter, an account manager spends 3-5 hours pulling together project status, milestone completions, goal progress, and open items to present to a client.
+
+**Agent workflow:**
+1. Pull all projects tagged to the client account (`getProjects`, filter by client label or custom field).
+2. For each project, gather completed milestones this quarter (`getActionsByWorkspace` with `milestone: true`, `excludeCompletedActions: false`, date range).
+3. Pull goal progress for client-linked goals (`getGoals` filtered by `ownerIds` or `specificIds`).
+4. Read open/overdue action counts per project for a risk snapshot.
+5. Build a QBR dashboard with charts: milestones delivered, actions completed over time, goal attainment (`createDashboardV2`, `createDashboardWidget` with `completedDateRange`).
+6. Compose a narrative summary and post it to the client's project group (`insertMessage`) or create a notebook (`notebooks` query to find existing, or create via notes).
+7. Set a reminder for the account manager to review the package 2 days before the meeting (`createReminder`).
+
+**Value:** QBR prep goes from a 4-hour data scavenger hunt to a 15-minute review of an agent-generated package. Account managers can run 3x the book of business without dropping the ball.
+
+---
+
+## 17. Capacity Forecast for New Business
+
+**The job:** Before committing to a new client engagement or internal initiative, a resource manager needs to answer: "Can we actually staff this with who we have, and when?"
+
+**Agent workflow:**
+1. Query all current resource assignments across the workspace (`getResourceAssignments` with date range for the proposed engagement window).
+2. Pull placeholder assignments to see planned-but-unfilled roles (`workspacePlaceholders`, `getResourceAssignments` by placeholder `resourceId`).
+3. Calculate available hours per person by subtracting allocated hours from standard capacity.
+4. Cross-reference the proposed project template to estimate required hours (`getProjects` with `templatesOnly: true`, count actions and story points).
+5. Produce a gap analysis: which roles are available, which are overbooked, and when the first feasible start date would be.
+6. Send the summary to the sales lead and resource manager (`insertMessage`).
+7. If the answer is "yes, but we need a hire," create a placeholder for the missing role (`createResourcePlaceholder`) and draft resource assignments against it (`createResourceAssignment`).
+
+**Value:** The answer to "can we take this on?" stops being a guess and starts being a data-backed recommendation. Sales doesn't oversell; delivery doesn't get blindsided.
+
+---
+
+## 18. Written Standup Generation
+
+**The job:** Every morning, each team member is expected to post a standup update: what they did yesterday, what they're doing today, and what's blocking them. Most people either skip it or phone it in.
+
+**Agent workflow:**
+1. Find all actions the user completed yesterday (`getActionsByWorkspace` by assignee, `status: "Completed"`, date range = yesterday).
+2. Find all actions currently in progress (`getActionsByWorkspace` by assignee, `status: "In Progress"`).
+3. Check for any blocked items (`status: "Blocked"`).
+4. Check for any pending approvals the user is waiting on (`currentRoundAndStage` across their actions).
+5. Compose a standup message summarizing: Done / Doing / Blocked.
+6. Post it to the team standup group chat (`insertMessage` to the project or standup `group`).
+
+**Value:** Standups actually happen, and they're accurate. Managers get visibility without the daily "did everyone post?" nag. Engineers save 5-10 minutes every morning -- that's 40+ hours/year per person.
+
+---
+
+## 19. Cross-Project Dependency Mapping
+
+**The job:** When multiple teams are working on related initiatives, someone (usually a program manager) has to manually identify which team's work blocks another team's work and maintain that picture as things change.
+
+**Agent workflow:**
+1. Query all active projects in the workspace (`getProjects`).
+2. For each project, pull open actions and their sub-actions (`getActionsByWorkspace` with `parent` to map hierarchies).
+3. Read custom fields that track cross-project dependencies (e.g., a "Depends On" project or action custom field — `getCustomFields`, `getActionsByWorkspace` with `customFieldId`).
+4. Identify actions in Project A that reference actions in Project B.
+5. Check status alignment: if a dependency in Project B is behind schedule, flag the downstream action in Project A.
+6. Build a dashboard widget visualizing cross-project dependencies and their health (`createDashboardWidget`).
+7. Notify both project owners when a dependency is at risk (`insertMessage`).
+
+**Value:** The program manager's mental model of "what depends on what" becomes a living, auto-updating map. Cross-team surprises drop dramatically.
+
+---
+
+## 20. Client-Facing Status Email Drafting
+
+**The job:** Account managers and project leads send weekly or biweekly status emails to clients. They spend 20-30 minutes per client gathering data and writing a professional update.
+
+**Agent workflow:**
+1. Pull the client's projects and their current status (`getProjects`, `getActionsByWorkspace`).
+2. Identify milestones completed since the last update (`getActionsByWorkspace` with `milestone: true`, date-filtered).
+3. Count actions completed, in progress, and overdue.
+4. Check for any open risks or blockers (`status: "Blocked"`).
+5. Review recent action comments for notable updates (`actionComments`).
+6. Check the most recent emails sent to the client for continuity (`getEmails` with `to` filter).
+7. Compose a polished status summary and post it as a draft note (`insertMessage` to the account manager's DM with themselves, or to a drafts group).
+8. Set a reminder to review and send by end of day (`createReminder`).
+
+**Value:** A 25-minute writing task becomes a 3-minute review-and-send. Clients get consistent, professional updates on schedule, which directly impacts retention and trust.
+
+---
+
+## 21. Portfolio Health Scoring
+
+**The job:** A VP or department head manages 15-30 active projects and needs to quickly identify which ones need attention. Today this means opening each project, eyeballing it, and building a mental ranking.
+
+**Agent workflow:**
+1. Pull all active projects (`getProjects`, excluding archived and templates).
+2. For each project, compute health signals:
+   - Overdue action ratio (`getActionsByWorkspace` with date filters).
+   - Days since last status update (action `modifiedAt` recency).
+   - Open blocker count (`status: "Blocked"`).
+   - Approval bottlenecks (`currentRoundAndStage` across project actions).
+   - Resource allocation vs. plan (`getResourceAssignments`).
+3. Score each project as Green / Yellow / Red based on thresholds.
+4. Build a portfolio dashboard with a summary widget per project (`createDashboardV2`, `createDashboardWidget` for each).
+5. Send a weekly portfolio health digest to the leadership group (`insertMessage`).
+6. For any Red projects, automatically DM the project owner asking for a risk mitigation update (`insertMessage`).
+
+**Value:** A VP can scan 30 projects in 60 seconds instead of 60 minutes. Attention goes to the fires, not to the projects that are humming along fine.
+
+---
+
+## 22. Vendor / Contractor Onboarding Checklist
+
+**The job:** When a new contractor or vendor starts, someone has to create accounts, share project access, set up introductions, assign initial work, and make sure nothing falls through the cracks. This happens dozens of times a year at a growing company.
+
+**Agent workflow:**
+1. Duplicate the contractor onboarding template action (`copyAction` from the onboarding template).
+2. Set the new contractor as the assignee on the parent action (`bulkUpdateActionsAssignees`).
+3. Create sub-actions for each onboarding step (NDA, access provisioning, intro meetings, first assignment) — these come from the template.
+4. Assign internal owners to each sub-action (IT for access, PM for intro meeting, etc.).
+5. Set deadlines relative to the start date.
+6. Add the contractor to relevant project groups (`updateMembersPermissions`).
+7. Send an introduction message to the project chat (`insertMessage`): "Welcome [Name], here's your onboarding checklist."
+8. Create a resource assignment for the contractor's allocation (`createResourceAssignment`).
+9. Set a 30-day reminder to check in on onboarding completion (`createReminder`).
+
+**Value:** Every contractor onboarding is consistent, nothing gets skipped, and the PM doesn't have to remember 12 manual steps. Time-to-productivity drops from 2 weeks to 2 days.
+
+---
+
+## 23. Risk Register Maintenance
+
+**The job:** A program manager is supposed to maintain a living risk register -- a list of things that could go wrong, their likelihood, impact, and mitigation status. In practice, it gets updated right before a steering committee meeting and is stale the rest of the time.
+
+**Agent workflow:**
+1. Scan all projects for risk indicators (`getActionsByWorkspace` across projects):
+   - Actions overdue by more than 3 days.
+   - Actions in "Blocked" for more than 48 hours.
+   - Milestones with no progress in the last 2 weeks.
+   - Resource assignments where allocation exceeds 100% (`getResourceAssignments`).
+   - Approval stages stuck awaiting response for 3+ days (`nextApprovalStage`, `currentRoundAndStage`).
+2. For each detected risk, check if a matching risk action already exists in the Risk Register project.
+3. If not, create a new risk action (`bulkInsertActions`) with title, description, affected project, and severity label (`bulkUpdateActionLabels`).
+4. If it already exists, update the description with the latest data (`bulkUpdateActionDescription`).
+5. Set a custom field for "Risk Score" based on severity and age (`bulkUpdateActionCustomFields`).
+6. Refresh the risk register dashboard (`updateDashboardWidget`).
+7. Before each steering committee meeting, send a risk summary to the leadership group (`insertMessage`).
+
+**Value:** The risk register updates itself continuously. Steering committees discuss real, current risks instead of stale guesses. Nothing festers unnoticed.
+
+---
+
+## 24. Proposal Effort Estimation from Historical Data
+
+**The job:** When scoping a new project or responding to an RFP, a delivery lead needs to estimate hours, cost, and timeline. Today they either guess or dig through old projects to find comparable work.
+
+**Agent workflow:**
+1. Find completed projects similar to the proposed work (`getProjects`, filter by labels or name search via `searchParams`).
+2. For each comparable project, count total actions, completed story points, and duration from first action to last completion (`getActionsByWorkspace` with `excludeCompletedActions: false`).
+3. Pull resource assignments from those projects to understand actual hours spent (`getResourceAssignments`).
+4. Pull placeholder rates for cost modeling (`workspacePlaceholders` → `billRate`, `costRate`).
+5. Compute averages: typical action count, total story points, elapsed weeks, and blended cost per point.
+6. Generate an effort estimate for the new proposal with ranges (optimistic / expected / pessimistic).
+7. Post the estimate to the sales or pre-sales group chat (`insertMessage`) and attach it as a note on the opportunity action.
+
+**Value:** Proposals are grounded in real delivery data, not gut feel. Bids are more accurate, margins are more predictable, and the sales team gets their numbers in hours instead of days.
+
+---
+
+## 25. End-of-Quarter Goal Reconciliation
+
+**The job:** At the end of every quarter, every goal owner has to reconcile their OKRs: update final numbers, write a retrospective, determine carry-forward items, and set up next quarter's goals. This is a week-long organizational tax.
+
+**Agent workflow:**
+1. Pull all goals ending this quarter (`getGoals` with date filters).
+2. For each goal, compute final attainment:
+   - For action-based goals: count completed vs. total linked actions (`getActionsByWorkspace`).
+   - For number-based goals: read the latest `currentValue` vs. `goalValue`.
+3. Tag each goal as Hit / Missed / Partial based on attainment thresholds.
+4. For missed goals, identify incomplete actions and decide: carry forward or archive (`bulkArchiveActions` for abandoned items).
+5. For carry-forward items, create next quarter's goal (`createGoal`) with updated targets and dates.
+6. Compose a retrospective summary for each goal and post it as a comment (`insertMessage` with `containerType: goal`).
+7. Build a quarter-end dashboard showing attainment by team and department (`createDashboardV2`, `createDashboardWidget` with pie chart by goal status).
+8. Send the full reconciliation report to leadership (`insertMessage` to leadership group).
+
+**Value:** Goal close-out shrinks from a painful week to an afternoon of reviewing agent-generated summaries. Next quarter's goals are pre-seeded and ready to go on Day 1.
+
+---
+
 ## Summary: The 30-Second Pitch
 
 Every one of these opportunities follows the same pattern:
