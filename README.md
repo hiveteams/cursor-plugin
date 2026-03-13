@@ -118,6 +118,12 @@ Uses `open-pr`. Pushes the branch, creates the GitHub PR, and attaches the branc
 
 Uses the Hive MCP server for live reads and writes.
 
+## Permissions
+
+The MCP server operates with the same permissions as the Hive user account you authenticate with.
+
+There is no separate permission layer added by the plugin. The authenticated user's role and workspace membership in Hive are the sole authority for what the MCP server can read or write.
+
 ## Limitations / non-goals
 
 - **Single workspace at a time.** Skills resolve one active workspace at a time. Multi-workspace workflows require prompting the agent to change workspaces.
