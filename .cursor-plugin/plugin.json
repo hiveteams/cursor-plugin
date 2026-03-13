@@ -6,7 +6,7 @@
     "name": "Hive",
     "email": "engineering@hive.com"
   },
-  "license": "UNLICENSED",
+  "repository": "https://github.com/hiveteams/cursor-plugin",
   "keywords": [
     "productivity",
     "project-management",
