@@ -13,10 +13,11 @@ Developers who want the AI assistant to write their Hive API calls or want to wo
 | Skill | `hive-api` | Reference docs for Hive REST v1 and GraphQL v2 APIs. Loaded automatically when Cursor needs endpoint schemas, field names, or auth patterns. |
 | Skill | `daily-standup-helper` | Queries your assigned Hive actions from the last 24 hours and formats a standup summary (completed, status changes, in progress). |
 | Skill | `find-related-work` | Takes a Hive action URL or ID, searches Hive for similar tickets, then searches git history (commit messages + pickaxe) for related code changes. Links commits back to Hive actions via branch names. |
+| Skill | `open-pr` | Creates a GitHub pull request and attaches the branch to a Hive action. Automatically links to the action in context, or asks which action to use. |
 | Agent | `solutions-engineer` | Persona tuned for building Hive API integrations. Knows REST/GraphQL patterns, webhook design, pagination, error handling. Produces typed TypeScript with curl equivalents. |
 | MCP Server | `hive` | Connects Cursor to a running Hive MCP server for live reads and writes against your workspace. |
 
-**Total: 3 skills, 1 agent, 1 MCP server.**
+**Total: 4 skills, 1 agent, 1 MCP server.**
 
 ## Install / configure
 
@@ -105,6 +106,11 @@ Loads the `hive-api` skill and returns the exact endpoint, required fields, and 
 > "Build a script that fetches all of the Hive actions assigned to a user X in project Y and ensures they all have custom field value Z"
 
 The `solutions-engineer` agent picks the right API surface (REST vs GraphQL) and produces the script.
+
+**Open a pull request**
+> "Open a PR for this branch" / "Create a PR and link it to ACTION_ID"
+
+Uses `open-pr`. Pushes the branch, creates the GitHub PR, and attaches the branch to the Hive action in context (or asks which action to link).
 
 **Direct workspace operations**
 > "Create a project in Hive called Q2 Roadmap"
