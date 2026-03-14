@@ -1,7 +1,7 @@
 {
   "mcpServers": {
-    "hive-test-dnu": {
-      "url": "http://localhost:3100/mcp"
+    "hive-beta": {
+      "url": "https://beta-hive-mind.hive.com/mcp"
     }
   }
 }
