@@ -1,14 +1,14 @@
 # Hive Cursor Plugin
 
-The Hive Cursor Plugin connects Cursor to Hive so the AI assistant can help users operate real work: manage actions and projects, build forms and workflows, summarize dashboards and goals, run meeting follow-up, bootstrap workspaces, support sales and services operations, and still provide API and integration guidance when needed.
+The Hive Cursor Plugin connects Cursor to Hive so the AI assistant can help users manage real work: actions, projects, forms, workflows, goals, dashboards, meeting follow-up, workspace setup, and operational handoffs.
 
-It keeps the original technical integration value of the plugin, but expands it into a broader project-management and operations assistant for Hive users.
+It turns Cursor into a natural-language interface for Hive while still supporting API and integration guidance when users need technical help.
 
 ## Who this is for
 
 - Teams using Hive as their project management system
 - PMs, chiefs of staff, ops leads, and delivery leads who want faster work coordination from Cursor
-- Technical users who still want API guidance, workflow design help, and integration-ready examples
+- Technical users who want API guidance, workflow design help, and integration-ready examples
 
 ## Included components
 

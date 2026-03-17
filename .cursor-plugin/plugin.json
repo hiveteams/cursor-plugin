@@ -1,7 +1,7 @@
 {
   "name": "hive-cursor-plugin",
   "version": "0.1.0",
-  "description": "Hive's Cursor plugin for managing work, building forms and workflows, summarizing projects, and integrating Hive data inside Cursor.",
+  "description": "Connect Cursor to Hive to manage work, build workflows, summarize projects, and design Hive integrations.",
   "author": {
     "name": "Hive",
     "email": "engineering@hive.com"
