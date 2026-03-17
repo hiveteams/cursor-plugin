@@ -189,8 +189,7 @@ query IntrospectionQuery {
 When you need a REST object schema (for example `project`, `custom-tag`, `action`), use:
 
 1. `docs/objects/index.md` to map object name to canonical file.
-2. The canonical file under `docs/objects/*.md`.
-3. The `legacy_path` in that file only if you need the original raw table source.
+2. The canonical file under `docs/objects/*.md` (each file contains the full schema inline).
 
 ## Additional Resources
 
