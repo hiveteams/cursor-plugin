@@ -1,18 +1,29 @@
 # Hive Cursor Plugin
 
-The Hive Cursor Plugin connects Cursor to Hive so the AI assistant can help users manage real work: actions, projects, forms, workflows, goals, dashboards, meeting follow-up, workspace setup, and operational handoffs.
-
-It turns Cursor into a natural-language interface for Hive while still supporting API and integration guidance when users need technical help.
+A Cursor plugin that gives the AI assistant access to Hive project management data and API documentation. It adds skills, agent personas, commands, rules, and an MCP server so Cursor can read and write Hive actions, generate standup summaries, find related work across Hive and git, scaffold API integration code, and optionally help operate broader Hive workflows.
 
 ## Who this is for
 
-- Teams using Hive as their project management system
-- PMs, chiefs of staff, ops leads, and delivery leads who want faster work coordination from Cursor
-- Technical users who want API guidance, workflow design help, and integration-ready examples
+Developers who want the AI assistant to write their Hive API calls or want to work directly with their Hive workspace in Cursor — querying tasks, writing API calls against correct schemas, and cross-referencing tickets with code history.
+
+The plugin also includes additional Hive workflow helpers for users who want to use Cursor as a natural-language interface for work management, forms, workflows, reporting, and operational handoffs.
 
 ## Included components
 
-### Skills
+### Developer-focused components
+
+| Type | Name | What it does |
+|------|------|-------------|
+| Skill | `hive-api` | Reference docs for Hive REST v1 and GraphQL v2 APIs. Loaded automatically when Cursor needs endpoint schemas, field names, or auth patterns. |
+| Skill | `daily-standup-helper` | Queries your assigned Hive actions from the last 24 hours and formats a standup summary (completed, status changes, in progress). |
+| Skill | `find-related-work` | Takes a Hive action URL or ID, searches Hive for similar tickets, then searches git history (commit messages + pickaxe) for related code changes. Links commits back to Hive actions via branch names. |
+| Skill | `open-pr` | Creates a GitHub pull request and attaches the branch to a Hive action. Automatically links to the action in context, or asks which action to use. |
+| Agent | `solutions-engineer` | Persona tuned for building Hive API integrations. Knows REST/GraphQL patterns, webhook design, pagination, error handling. Produces typed TypeScript with curl equivalents. |
+| MCP Server | `hive` | Connects Cursor to a running Hive MCP server for live reads and writes against your workspace. |
+
+### Additional Hive workflow components
+
+#### Skills
 
 | Skill | What it does |
 |------|--------------|
@@ -27,12 +38,8 @@ It turns Cursor into a natural-language interface for Hive while still supportin
 | `run-sales-ops` | Builds customer handoff, pipeline, and CRM-aware operational workflows in Hive. |
 | `run-services-ops` | Designs services delivery, time, approvals, and invoice-prep workflows in Hive. |
 | `work-with-connected-content` | Combines Hive execution with connected content sources when the user's environment already provides them. |
-| `daily-standup-helper` | Generates a daily standup from recent Hive action changes. |
-| `find-related-work` | Links Hive work to similar tickets, local git history, and related code changes. Can optionally use GitHub tooling if it is already present in the user's Cursor environment. |
-| `hive-api` | Reference docs for Hive REST v1 and GraphQL v2 APIs. |
-| `open-pr` | Creates a PR and links the branch back to a Hive action when GitHub tooling is already available in Cursor. |
 
-### Agents
+#### Agents
 
 | Agent | What it does |
 |------|--------------|
@@ -42,9 +49,7 @@ It turns Cursor into a natural-language interface for Hive while still supportin
 | `hive-workspace-architect` | Workspace design agent for templates, rollout plans, and operating-model setup. |
 | `hive-revenue-ops-agent` | Revenue and CRM workflow agent for customer handoffs and pipeline-driven execution. |
 | `hive-services-ops-agent` | Services operations agent for delivery control, approvals, time, and invoice-prep workflows. |
-| `solutions-engineer` | Integration-focused agent for API requests, scripts, webhooks, and implementation guidance. |
-
-### Commands
+#### Commands
 
 | Command | What it does |
 |--------|---------------|
@@ -60,7 +65,7 @@ It turns Cursor into a natural-language interface for Hive while still supportin
 | `/hive-prepare-invoice` | Summarizes delivery and time data into invoice-prep workflow output. |
 | `/hive-connected-content` | Uses Hive plus connected content sources when the user's environment already provides them. |
 
-### Rules
+#### Rules
 
 The plugin also adds persistent guidance for:
 
@@ -99,11 +104,11 @@ Some skills use `hive-profile.json` to remember the active workspace. If `active
 
 ### OAuth
 
-The Hive MCP server supports OAuth. When you first use Hive from Cursor, authorize with Hive and let the MCP server manage tokens for you.
+The Hive MCP server uses OAuth for authentication. When you first interact with the MCP server, Cursor prompts you to authorize with Hive. After you authorize, the MCP server manages tokens automatically — no manual credential handling required.
 
 ### API key
 
-Raw REST or GraphQL requests can also use API keys:
+It is also an option to use an API key with Hive:
 
 | Credential | How it's sent |
 |-----------|---------------|
@@ -112,9 +117,9 @@ Raw REST or GraphQL requests can also use API keys:
 
 Get both from **Hive → Main Menu → My Profile → API Info**.
 
-Store credentials in environment variables such as `HIVE_API_KEY` and `HIVE_USER_ID`. Never hardcode or log them.
+Store credentials in environment variables (`HIVE_API_KEY`, `HIVE_USER_ID`). Never hardcode or log them.
 
-Credential check:
+Validate credentials:
 
 ```bash
 curl -s -H "api_key: $HIVE_API_KEY" \
@@ -123,27 +128,56 @@ curl -s -H "api_key: $HIVE_API_KEY" \
 
 ## Network access
 
-The plugin may contact:
+The plugin makes requests to:
 
 | Host | Purpose |
 |------|---------|
-| `hive-mind.hive.com` | Hive MCP server |
-| `app.hive.com` | Hive REST API v1 |
-| `prod-gql.hive.com` | Hive GraphQL API v2 |
+| `hive-mind.hive.com` | MCP server |
+| `app.hive.com` | REST API v1 |
+| `prod-gql.hive.com` | GraphQL API v2 |
 
-The `find-related-work` and `open-pr` flows may also use git or GitHub tooling already available in the user's Cursor environment. The plugin does not bundle a separate GitHub MCP server.
+The `find-related-work` and `open-pr` flows can also use GitHub tooling that is already available in the user's Cursor environment. The plugin does not bundle a separate GitHub MCP server.
+
+All Hive API traffic is over HTTPS. No other external services are contacted by default.
 
 ## Data handling
 
-- **Read access**: The plugin may query actions, projects, labels, notes, goals, dashboards, and workspace metadata. Some workflows can also use connected content sources when the user's environment already provides them.
-- **Write access**: The plugin can create or update Hive objects when the user asks it to.
-- **Credential storage**: Secrets should live in OAuth flows or environment variables, not in plugin files.
-- **Local storage**: `hive-profile.json` stores workspace selection only.
-- **LLM context**: Hive data retrieved during a session is passed through normal Cursor conversation context.
+- **Read access**: Skills query your Hive actions, projects, labels, and workspace metadata. Additional workflow helpers may also query notes, goals, dashboards, and connected content sources when those are available.
+- **Write access**: The MCP server can create and update Hive objects if you ask it to. Many of the prompt assets are guidance-only until used alongside the appropriate Hive or environment tooling.
+- **Credential storage**: API keys are expected in environment variables or passed through the MCP server. Nothing is persisted to disk by the plugin beyond `hive-profile.json` (which contains workspace IDs, not secrets).
+- **Local data**: `hive-profile.json` stores workspace IDs. No action content, user data, or API responses are cached to disk.
+- **LLM context**: Hive data fetched during a session is passed to the LLM as part of the conversation context. This follows Cursor's standard context handling.
 
 ## Example prompts
 
-### Work management
+### Developer workflows
+
+**Standup summary**
+> "What did I do yesterday?" / "Generate my standup"
+
+Uses `daily-standup-helper`. Queries completed and modified actions from the last 24 hours, outputs a grouped summary.
+
+**Related work lookup**
+> "Find related work for <https://app.hive.com/workspace/.../action/ABC123>"
+
+Uses `find-related-work`. Searches Hive for similar tickets, searches git for commits touching the same code, and links them together.
+
+**API integration help**
+> "How do I create an action with the Hive API?"
+
+Loads `hive-api` and returns the exact endpoint, required fields, and a working code example.
+
+**Solutions engineer agent**
+> "Build a script that fetches all of the Hive actions assigned to a user X in project Y and ensures they all have custom field value Z"
+
+The `solutions-engineer` agent picks the right API surface (REST vs GraphQL) and produces the script.
+
+**Open a pull request**
+> "Open a PR for this branch" / "Create a PR and link it to ACTION_ID"
+
+Uses `open-pr`. Pushes the branch, creates the GitHub PR, and attaches the branch to the Hive action in context when the needed GitHub tooling is available.
+
+### Hive workflow examples
 
 > "Create a project in Hive called Q2 Roadmap and give me the first sections I should use."
 
@@ -179,17 +213,13 @@ The `find-related-work` and `open-pr` flows may also use git or GitHub tooling a
 
 > "Find the prior notes and related work for this customer kickoff."
 
-### Technical integration help
-
-> "How do I create an action with the Hive API?"
-
-> "Build a script that fetches all Hive actions assigned to a user in project Y and ensures they all have custom field value Z."
-
 ## Permissions
 
-The plugin only has the permissions of the Hive user account that authenticates with it. It does not add a separate permissions layer on top of Hive.
+The MCP server operates with the same permissions as the Hive user account you authenticate with.
+
+There is no separate permission layer added by the plugin. The authenticated user's role and workspace membership in Hive are the sole authority for what the MCP server can read or write.
 
 ## Current limitations
 
-- The plugin typically operates in one active workspace at a time.
+- **Single workspace at a time.** Skills typically resolve one active workspace at a time. Multi-workspace workflows require prompting the agent to change workspaces.
 - The quality of available operations depends on the Hive permissions and apps enabled in that workspace.

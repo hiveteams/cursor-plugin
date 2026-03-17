@@ -10,7 +10,7 @@ Create a GitHub pull request and attach the branch to the relevant Hive action.
 ## Required data sources
 
 - Use local git for branch, remote, and diff information.
-- Use GitHub tooling already available in the user's Cursor environment, such as a GitHub MCP server or the `gh` CLI, to open the PR.
+- Use the GitHub MCP server when it is configured in the user's environment, or the `gh` CLI, to open the PR.
 - Use the Hive MCP server (`updateActionGithubBranchNames`) to link the branch to a Hive action.
 
 ## Workflow
@@ -19,7 +19,7 @@ Create a GitHub pull request and attach the branch to the relevant Hive action.
    - Run `git branch --show-current` to get the current branch name.
    - Run `git remote get-url origin` to extract the repo owner and name.
    - Run `git status` and `git log` to understand staged/unstaged changes and recent commit history on this branch.
-   - Determine the base branch from the repo's existing remote branches and recent PR history. Prefer the repository default branch when there is no stronger signal.
+   - Determine the base branch (typically `beta` or `main`/`master`). Check which exists with `git branch -r`.
    - If there are uncommitted changes, ask the user whether to commit first.
 
 2. Push the branch if needed.
