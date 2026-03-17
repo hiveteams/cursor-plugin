@@ -44,6 +44,7 @@ Prefer the smallest artifact that proves the path.
 - Prefer Hive MCP when the user wants live workspace operations inside Cursor.
 - Prefer REST for straightforward CRUD and webhook management.
 - Prefer GraphQL for nested reads, reporting, and precise field selection.
+- Never invent REST pagination parameters such as `page` or `offset`; when a task needs complete pagination, use only documented REST semantics or switch to GraphQL cursor pagination.
 - Prefer webhooks for event-driven syncs.
 
 ## Output rules
