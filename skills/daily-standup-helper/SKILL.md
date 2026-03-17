@@ -11,6 +11,8 @@ Use Hive MCP data to summarize how the user's assigned actions changed over the 
 
 Use the Hive MCP server for all Hive data access.
 
+**Scope constraint**: Every Hive MCP call that accepts an `assignees` parameter **must** be limited to `assignees: [userId]` (the current user's ID resolved in step 1). Do not fetch or return actions assigned to other users. If a tool does not support an `assignees` filter, do not use it to retrieve actions.
+
 ## Workflow
 
 1. Resolve the user and workspace.
