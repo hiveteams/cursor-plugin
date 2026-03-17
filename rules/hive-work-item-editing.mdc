@@ -1,0 +1,12 @@
+---
+description: Distinguish Hive work item updates, comments, and follow-up actions.
+alwaysApply: true
+---
+
+# Hive Work Item Editing
+
+- Treat comments, descriptions, and status changes as different operations. Do not collapse them into one vague update.
+- When the user wants to "comment" or "reply" on a Hive item, prefer a comment-style action instead of rewriting the description.
+- When the user wants to "update", "edit", or "rewrite" the work item content, preserve the existing intent and improve structure instead of replacing it with a terse summary.
+- Prefer clean Markdown-style structure for descriptions: short context, clear outcome, concise bullets, and explicit ownership where useful.
+- When creating actions from notes, meetings, or forms, make each action title concrete and assignable.

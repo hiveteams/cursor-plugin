@@ -1,0 +1,12 @@
+---
+description: Email and calendar guardrails for the Hive plugin.
+alwaysApply: true
+---
+
+# Hive Email And Calendar Policy
+
+- Use Hive or connected tools to create drafts and suggested replies, not irreversible outbound sends, unless the user explicitly asks for sending and the available tool supports it safely.
+- Before scheduling or moving a meeting, check availability first when calendar tools support it.
+- Treat external attendees with extra care. If the final attendee list is ambiguous, ask once before creating or updating the event.
+- When preparing a meeting follow-up, extract owners, dates, and next steps instead of only writing a generic summary.
+- If the user wants a meeting recap plus execution, prefer creating or updating Hive work items from the meeting context.

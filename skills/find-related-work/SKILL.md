@@ -10,7 +10,7 @@ Use this skill to gather prior art for a Hive ticket from both Hive and git hist
 ## Required data sources
 
 - Use the Hive MCP server for Hive actions.
-- Use the GitHub MCP server only when the Hive action has attached branch names and you need PR diffs.
+- Use GitHub tooling only when it already exists in the user's Cursor environment and the Hive action has attached branch names that warrant PR diff lookup.
 - Use local git history for commit search, pickaxe, and branch lookup.
 
 ## Input
@@ -54,8 +54,8 @@ If the input is a URL, extract the action ID from the URL path before continuing
    - Run `git diff` and `git diff --cached` in the current repo to see if there is a local change related to the ticket.
    - If the source action has `githubBranchNames`, try to fetch attached PR diffs:
    - Identify the current repository owner and name from the local git remote when possible.
-   - For each branch name, use GitHub `search_pull_requests` to find matching PRs.
-   - For the most relevant PRs, use `pull_request_read` with `method: "get_diff"`.
+   - For each branch name, use the available GitHub integration to find matching PRs.
+   - For the most relevant PRs, fetch a diff only if the environment supports it.
    - Use local diffs first when they exist. Use PR diffs as additional context or as the primary diff source when there is no local diff.
    - If no local or PR diffs are available, continue with keyword-only history search.
 

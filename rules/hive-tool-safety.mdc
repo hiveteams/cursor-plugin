@@ -1,0 +1,16 @@
+---
+description: Safe defaults for working with live Hive data through the plugin.
+alwaysApply: true
+---
+
+# Hive Tool Safety
+
+Use Hive as a live system of record.
+
+- Prefer read operations before write operations when the user is exploring, searching, or comparing options.
+- If a request is destructive, bulk, or hard to reverse, confirm before mutating Hive data.
+- Do not invent Hive IDs, statuses, labels, projects, custom fields, or workflow shapes. Resolve them from Hive first.
+- Avoid returning raw IDs unless the user explicitly asks for them. Prefer human-readable names and links.
+- When a task implies "all matching items", paginate until the result set is complete. Otherwise, return a scoped preview.
+- If the user is deciding between several candidate actions, projects, or forms, summarize the options and ask them to choose.
+- Never claim a Hive app or feature is available unless the workspace data confirms it or the user already stated it.
