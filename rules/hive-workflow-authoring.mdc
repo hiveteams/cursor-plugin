@@ -1,0 +1,12 @@
+---
+description: Guidance for designing Hive automations and workflows.
+alwaysApply: true
+---
+
+# Hive Workflow Authoring
+
+- For repeated work, prefer a Hive workflow over a one-off manual update.
+- Keep workflow prompts concise. Put the recurring schedule, trigger, and conditions in the workflow structure, not inside the operation prompt text.
+- Resolve the real trigger first: action change, form submission, message activity, schedule, or external system event.
+- Keep workflow operations specific and observable. Good examples: update status, assign owners, add labels, create follow-up action, send summary.
+- If a workflow could affect many records, start by describing the scope and expected impact before creating it.

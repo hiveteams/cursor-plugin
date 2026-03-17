@@ -1,5 +1,5 @@
 ---
-name: hive-rest-api
+name: hive-api
 description: Hive REST API reference for building integrations. Covers authentication, actions, projects, messages, users, labels, custom fields, custom tags, teams, files, resource assignments, webhooks, and GraphQL. Use when working with the Hive API, building Hive integrations, or making HTTP requests to app.hive.com.
 ---
 

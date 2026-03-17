@@ -1,6 +1,6 @@
 ---
 name: open-pr
-description: Creates a GitHub pull request and attaches it to a Hive action. Automatically links the branch to the Hive action in context, or asks which action to use. Use when the user wants to open a PR, create a pull request, submit changes for review, or push a branch for merging.
+description: Creates a GitHub pull request and attaches it to a Hive action when GitHub tooling is already available in the user's Cursor environment. Automatically links the branch to the Hive action in context, or asks which action to use. Use when the user wants to open a PR, create a pull request, submit changes for review, or push a branch for merging.
 ---
 
 # Open PR
@@ -10,7 +10,7 @@ Create a GitHub pull request and attach the branch to the relevant Hive action.
 ## Required data sources
 
 - Use local git for branch, remote, and diff information.
-- Use the GitHub MCP server (`create_pull_request`), or the github CLI, to open the PR.
+- Use the GitHub MCP server when it is configured in the user's environment, or the `gh` CLI, to open the PR.
 - Use the Hive MCP server (`updateActionGithubBranchNames`) to link the branch to a Hive action.
 
 ## Workflow
@@ -27,7 +27,7 @@ Create a GitHub pull request and attach the branch to the relevant Hive action.
    - If not pushed, push with `git push -u origin HEAD`.
 
 3. Create the pull request.
-   - Use the GitHub MCP `create_pull_request` tool.
+   - Use the available GitHub integration in the environment.
    - Derive the title from the commit history or branch name.
    - Build a concise body summarizing the changes (use `git diff <base>...HEAD`).
    - Set `base` to the target branch identified in step 1.

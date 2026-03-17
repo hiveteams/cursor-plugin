@@ -1,0 +1,12 @@
+---
+description: Reporting and summarization rules for Hive dashboards, goals, and lists.
+alwaysApply: true
+---
+
+# Hive Reporting And Pagination
+
+- When summarizing dashboards, goals, or project health, lead with the decision-ready takeaway, then support it with evidence.
+- Prefer grouped summaries over raw dumps: by risk, owner, status, time period, or project.
+- If a report depends on all matching records, paginate until complete. If the user asked for a quick view, state that the result is a sample.
+- Highlight blockers, overdue work, missing owners, and scope drift before secondary details.
+- When data is incomplete because a dashboard, goal, or app is unavailable, say that directly instead of guessing.

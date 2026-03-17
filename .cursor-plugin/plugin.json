@@ -1,18 +1,27 @@
 {
   "name": "hive-cursor-plugin",
   "version": "0.1.0",
-  "description": "Hive's Cursor plugin — API skills, solutions engineering agent, and MCP integration.",
+  "description": "Connect Cursor to Hive to manage work, build workflows, summarize projects, and design Hive integrations.",
   "author": {
     "name": "Hive",
     "email": "engineering@hive.com"
   },
   "logo": "assets/logo.svg",
+  "homepage": "https://github.com/hiveteams/cursor-plugin",
+  "license": "MIT",
   "repository": "https://github.com/hiveteams/cursor-plugin",
+  "mcpServers": "mcp.json",
   "keywords": [
     "productivity",
     "project-management",
     "ticketing",
     "task-management",
-    "hive"
+    "hive",
+    "workflow-automation",
+    "forms",
+    "goals",
+    "dashboards",
+    "services-ops",
+    "revenue-ops"
   ]
 }
