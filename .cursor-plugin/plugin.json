@@ -6,7 +6,7 @@
     "name": "Hive",
     "email": "engineering@hive.com"
   },
-  "logo": "assets/logo.svg",
+  "logo": "assets/logo.png",
   "repository": "https://github.com/hiveteams/cursor-plugin",
   "keywords": [
     "productivity",
