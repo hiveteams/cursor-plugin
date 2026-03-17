@@ -1,6 +1,6 @@
 # Hive Cursor Plugin
 
-The Hive Cursor Plugin connects Cursor to Hive so the AI assistant can help users operate real work: manage actions and projects, build forms and workflows, summarize dashboards and goals, run meeting follow-up, and still provide API and integration guidance when needed.
+The Hive Cursor Plugin connects Cursor to Hive so the AI assistant can help users operate real work: manage actions and projects, build forms and workflows, summarize dashboards and goals, run meeting follow-up, bootstrap workspaces, support sales and services operations, and still provide API and integration guidance when needed.
 
 It keeps the original technical integration value of the plugin, but expands it into a broader project-management and operations assistant for Hive users.
 
@@ -17,12 +17,16 @@ It keeps the original technical integration value of the plugin, but expands it 
 | Skill | What it does |
 |------|--------------|
 | `manage-hive-work` | Creates, updates, organizes, assigns, and summarizes actions and projects in Hive. |
+| `bootstrap-hive-workspace` | Recommends a full Hive setup for launches, agencies, customer operations, onboarding, strategic planning, and other team workflows. |
 | `design-hive-form` | Designs request and intake forms that create actions, projects, and follow-up flows. |
 | `build-hive-workflow` | Creates recurring and event-based Hive automations from natural language. |
 | `track-hive-goals` | Reviews goal progress, risks, and next actions. |
 | `summarize-hive-dashboard` | Produces executive summaries from dashboards, reporting views, and project health signals. |
 | `run-meeting-followup` | Turns notes and meetings into recap output, owners, and next-step actions. |
 | `search-hive-knowledge` | Searches notes and workspace context before guessing. |
+| `run-sales-ops` | Builds customer handoff, pipeline, and CRM-aware operational workflows in Hive. |
+| `run-services-ops` | Designs services delivery, time, approvals, and invoice-prep workflows in Hive. |
+| `work-with-connected-content` | Combines Hive execution with connected content sources when the user's environment already provides them. |
 | `daily-standup-helper` | Generates a daily standup from recent Hive action changes. |
 | `find-related-work` | Links Hive work to similar tickets, local git history, and related code changes. Can optionally use GitHub tooling if it is already present in the user's Cursor environment. |
 | `hive-api` | Reference docs for Hive REST v1 and GraphQL v2 APIs. |
@@ -35,6 +39,9 @@ It keeps the original technical integration value of the plugin, but expands it 
 | `hive-ops-agent` | General-purpose Hive operating agent for work execution, forms, workflows, and structured updates. |
 | `hive-reporting-agent` | Reporting-focused agent for executive summaries, dashboards, and goal reviews. |
 | `hive-meetings-agent` | Meeting-to-execution agent for notes, actions, and follow-up drafts. |
+| `hive-workspace-architect` | Workspace design agent for templates, rollout plans, and operating-model setup. |
+| `hive-revenue-ops-agent` | Revenue and CRM workflow agent for customer handoffs and pipeline-driven execution. |
+| `hive-services-ops-agent` | Services operations agent for delivery control, approvals, time, and invoice-prep workflows. |
 | `solutions-engineer` | Integration-focused agent for API requests, scripts, webhooks, and implementation guidance. |
 
 ### Commands
@@ -42,12 +49,16 @@ It keeps the original technical integration value of the plugin, but expands it 
 | Command | What it does |
 |--------|---------------|
 | `/hive-connect` | Helps connect Cursor to Hive and verify the workspace context. |
+| `/hive-bootstrap-workspace` | Recommends the first complete Hive setup for a team or business workflow. |
 | `/hive-plan-work` | Turns a goal, project, or vague request into a concrete Hive execution plan. |
 | `/hive-create-form` | Builds a Hive intake or request form. |
 | `/hive-create-workflow` | Creates a Hive app workflow or recurring automation. |
 | `/hive-goal-review` | Produces a goal status review with next steps. |
 | `/hive-exec-summary` | Produces a concise leadership or project-health summary. |
 | `/hive-meeting-followup` | Converts meetings or notes into recap output and follow-through. |
+| `/hive-sales-handoff` | Builds a sales-to-delivery or CRM-to-execution handoff process in Hive. |
+| `/hive-prepare-invoice` | Summarizes delivery and time data into invoice-prep workflow output. |
+| `/hive-connected-content` | Uses Hive plus connected content sources when the user's environment already provides them. |
 
 ### Rules
 
@@ -58,6 +69,7 @@ The plugin also adds persistent guidance for:
 - work item editing vs commenting behavior
 - workflow authoring best practices
 - reporting and pagination behavior
+- integration readiness for external systems and connectors
 
 ### MCP
 
@@ -123,7 +135,7 @@ The `find-related-work` and `open-pr` flows may also use git or GitHub tooling a
 
 ## Data handling
 
-- **Read access**: The plugin may query actions, projects, labels, notes, goals, dashboards, and workspace metadata.
+- **Read access**: The plugin may query actions, projects, labels, notes, goals, dashboards, and workspace metadata. Some workflows can also use connected content sources when the user's environment already provides them.
 - **Write access**: The plugin can create or update Hive objects when the user asks it to.
 - **Credential storage**: Secrets should live in OAuth flows or environment variables, not in plugin files.
 - **Local storage**: `hive-profile.json` stores workspace selection only.
@@ -137,11 +149,23 @@ The `find-related-work` and `open-pr` flows may also use git or GitHub tooling a
 
 > "Summarize what is overdue in the launch project and suggest the next three actions."
 
+> "Set up Hive for a customer onboarding team and tell me which projects, forms, and dashboards to create first."
+
 ### Forms and workflows
 
 > "Build a creative request form in Hive that creates actions and routes them to the design lead."
 
 > "Create a workflow that sends me a Friday summary of completed launch work."
+
+### Revenue and services operations
+
+> "Create a closed-won handoff process in Hive from sales to onboarding."
+
+> "Prepare an invoice review summary for this client project from delivery work in Hive."
+
+### Connector-aware workflows
+
+> "Search our connected content for the latest implementation plan, then turn it into Hive follow-up work."
 
 ### Goals and reporting
 
