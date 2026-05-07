@@ -90,7 +90,11 @@ Install the plugin from Cursor Settings. Cursor will load the plugin assets and 
 
 ### `hive-profile.json`
 
-Some skills use `hive-profile.json` to remember the active workspace. If `activeWorkspaceId` is set, they use it directly. Otherwise they fall back to resolving the current workspace through Hive.
+Some skills use `hive-profile.json` to remember the active workspace. The file is saved in your project root at:
+
+`<project-root>/hive-profile.json`
+
+If `activeWorkspaceId` is set, skills use it directly. Otherwise they fall back to resolving the current workspace through Hive.
 
 ```json
 {
