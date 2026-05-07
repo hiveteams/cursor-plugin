@@ -6,10 +6,10 @@
 
 ## Local v2 Introspection Snapshot
 
-This plugin also includes a generated reference built from live schema introspection of `https://prod-gql.hive.com/graphql`:
+This plugin also includes generated references built from live schema introspection of `https://prod-gql.hive.com/graphql`:
 
 - [GraphQL v2 Endpoints Index](v2/graphql/index.md)
-- `graphql-v2-endpoints.md` and `graphql-v2-schema.json` are maintained as compatibility paths
+- [GraphQL v2 Schema Snapshot](v2/graphql/schema.json)
 
 The reference documentation here is designed for anyone interested in building custom integrations or tools on top of Hive using our public GraphQL API. With the Hive GraphQL API, you can unlock powerful ways to automate, extend, and connect Hive to your team’s unique workflows.
 
