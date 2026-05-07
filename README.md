@@ -99,7 +99,7 @@ If `activeWorkspaceId` is set, skills use it directly. Otherwise they fall back 
 ```json
 {
   "workspaces": [],
-  "primaryWorkspaceId": null,
+  "primaryWorkspaceId": "",
   "activeWorkspaceId": "YOUR_WORKSPACE_ID"
 }
 ```
