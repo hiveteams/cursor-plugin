@@ -160,7 +160,6 @@ Supports queries/mutations for projects, actions, sections, users, comments, and
 Generated v2 operation reference from live introspection:
 
 - [GraphQL v2 Endpoints Index](docs/v2/graphql/index.md)
-- [Legacy GraphQL v2 Endpoints Path](docs/graphql-v2-endpoints.md)
 
 ### Introspection Workflow
 

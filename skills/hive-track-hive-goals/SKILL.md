@@ -1,5 +1,5 @@
 ---
-name: track-hive-goals
+name: hive-track-hive-goals
 description: Track Hive goals and connect them to real execution. Use when the user wants goal progress, goal health, missing next steps, or a plan to move a goal forward.
 ---
 

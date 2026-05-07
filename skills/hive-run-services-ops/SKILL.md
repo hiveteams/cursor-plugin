@@ -1,5 +1,5 @@
 ---
-name: run-services-ops
+name: hive-run-services-ops
 description: Use Hive for services delivery, time tracking, approvals, and invoice preparation. Use when the user wants delivery operations and billing-adjacent work managed from Hive.
 ---
 

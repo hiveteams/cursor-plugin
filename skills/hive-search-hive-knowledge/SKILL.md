@@ -1,5 +1,5 @@
 ---
-name: search-hive-knowledge
+name: hive-search-hive-knowledge
 description: Search Hive notes, activity, and workspace context before guessing. Use when the user wants existing context, prior decisions, related notes, or background for a task in Hive.
 ---
 

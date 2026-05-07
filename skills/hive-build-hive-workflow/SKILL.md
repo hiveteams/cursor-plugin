@@ -1,5 +1,5 @@
 ---
-name: build-hive-workflow
+name: hive-build-hive-workflow
 description: Build Hive automations and app workflows from natural language. Use when the user wants a repeated process to happen automatically on a schedule or when work changes.
 ---
 

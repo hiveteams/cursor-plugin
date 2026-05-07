@@ -1,5 +1,5 @@
 ---
-name: run-sales-ops
+name: hive-run-sales-ops
 description: Use Hive for revenue and sales operations. Use when the user wants customer handoffs, deal follow-up, CRM-connected workflows, or structured work created from pipeline activity.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: work-with-connected-content
+name: hive-work-with-connected-content
 description: Work with connected documents and external content alongside Hive execution. Use when the user wants to combine Hive work with Google Drive, SharePoint, email, or other connected knowledge sources.
 ---
 
