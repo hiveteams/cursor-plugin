@@ -17,7 +17,7 @@ Use the Hive MCP server for all Hive data access.
 
 1. Resolve the user and workspace.
    - First read `hive-profile.json`.
-   - If `activeWorkspaceId` is present, use it as the workspace ID.
+   - If `activeWorkspaceId` is a non-empty string, use it as the workspace ID.
    - Otherwise call `getUsersWorkspaces` and use the active workspace if available, or the primary workspace as fallback.
    - Use the returned current user ID for the `assignees` filter.
 

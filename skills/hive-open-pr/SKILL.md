@@ -42,7 +42,7 @@ Create a GitHub pull request and attach the branch to the relevant Hive action.
    - If given a URL, extract the action ID from the path.
    - If given a title or search term, resolve the workspace first:
      - Read `hive-profile.json`.
-     - If `activeWorkspaceId` is present, use it. Otherwise call `getUsersWorkspaces` and use the active or primary workspace.
+    - If `activeWorkspaceId` is a non-empty string, use it. Otherwise call `getUsersWorkspaces` and use the active or primary workspace.
    - Call `getActions` with `specificIds` (for an ID) or `text` (for a title search) to confirm the action exists.
    - If a text search returns multiple results, ask the user to pick one.
 

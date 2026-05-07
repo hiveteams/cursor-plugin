@@ -94,7 +94,7 @@ Some skills use `hive-profile.json` to remember the active workspace. The file i
 
 `<project-root>/hive-profile.json`
 
-If `activeWorkspaceId` is set, skills use it directly. Otherwise they fall back to resolving the current workspace through Hive.
+If `activeWorkspaceId` is a non-empty string, skills use it directly. Otherwise they fall back to resolving the current workspace through Hive.
 
 ```json
 {

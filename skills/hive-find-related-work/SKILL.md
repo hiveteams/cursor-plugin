@@ -26,7 +26,7 @@ If the input is a URL, extract the action ID from the URL path before continuing
 
 1. Resolve the workspace and fetch the source action.
    - First read `hive-profile.json`.
-   - If `activeWorkspaceId` is present, use it as the workspace ID.
+   - If `activeWorkspaceId` is a non-empty string, use it as the workspace ID.
    - Otherwise call `getUsersWorkspaces` and use the active workspace if available, or the primary workspace as fallback.
    - Call Hive `getActions` with:
    - `workspaceId`
