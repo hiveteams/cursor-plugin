@@ -80,7 +80,7 @@ The plugin also adds persistent guidance for:
 
 | Component | What it does |
 |----------|---------------|
-| `Hive` MCP server | Connects Cursor to Hive for live workspace reads and writes. |
+| `hive` MCP server | Connects Cursor to Hive for live workspace reads and writes. |
 
 ## Install and configure
 
