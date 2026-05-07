@@ -1,5 +1,5 @@
 ---
-name: bootstrap-hive-workspace
+name: hive-bootstrap-hive-workspace
 description: Bootstrap a Hive workspace for a team or use case. Use when the user wants to stand up Hive for launches, agencies, customer operations, onboarding, strategic planning, or other repeatable business workflows.
 ---
 

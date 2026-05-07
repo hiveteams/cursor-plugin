@@ -15,10 +15,10 @@ The plugin also includes additional Hive workflow helpers for users who want to 
 | Type | Name | What it does |
 |------|------|-------------|
 | Skill | `hive-api` | Reference docs for Hive REST v1 and GraphQL v2 APIs. Loaded automatically when Cursor needs endpoint schemas, field names, or auth patterns. |
-| Skill | `daily-standup-helper` | Queries your assigned Hive actions from the last 24 hours and formats a standup summary (completed, status changes, in progress). |
-| Skill | `find-related-work` | Takes a Hive action URL or ID, searches Hive for similar tickets, then searches git history (commit messages + pickaxe) for related code changes. Links commits back to Hive actions via branch names. |
-| Skill | `open-pr` | Creates a GitHub pull request and attaches the branch to a Hive action. Automatically links to the action in context, or asks which action to use. |
-| Agent | `solutions-engineer` | Persona tuned for building Hive API integrations. Knows REST/GraphQL patterns, webhook design, pagination, error handling. Produces typed TypeScript with curl equivalents. |
+| Skill | `hive-daily-standup-helper` | Queries your assigned Hive actions from the last 24 hours and formats a standup summary (completed, status changes, in progress). |
+| Skill | `hive-find-related-work` | Takes a Hive action URL or ID, searches Hive for similar tickets, then searches git history (commit messages + pickaxe) for related code changes. Links commits back to Hive actions via branch names. |
+| Skill | `hive-open-pr` | Creates a GitHub pull request and attaches the branch to a Hive action. Automatically links to the action in context, or asks which action to use. |
+| Agent | `hive-solutions-engineer` | Persona tuned for building Hive API integrations. Knows REST/GraphQL patterns, webhook design, pagination, error handling. Produces typed TypeScript with curl equivalents. |
 | MCP Server | `hive` | Connects Cursor to a running Hive MCP server for live reads and writes against your workspace. |
 
 ### Additional Hive workflow components
@@ -27,17 +27,17 @@ The plugin also includes additional Hive workflow helpers for users who want to 
 
 | Skill | What it does |
 |------|--------------|
-| `manage-hive-work` | Creates, updates, organizes, assigns, and summarizes actions and projects in Hive. |
-| `bootstrap-hive-workspace` | Recommends a full Hive setup for launches, agencies, customer operations, onboarding, strategic planning, and other team workflows. |
-| `design-hive-form` | Designs request and intake forms that create actions, projects, and follow-up flows. |
-| `build-hive-workflow` | Creates recurring and event-based Hive automations from natural language. |
-| `track-hive-goals` | Reviews goal progress, risks, and next actions. |
-| `summarize-hive-dashboard` | Produces executive summaries from dashboards, reporting views, and project health signals. |
-| `run-meeting-followup` | Turns notes and meetings into recap output, owners, and next-step actions. |
-| `search-hive-knowledge` | Searches notes and workspace context before guessing. |
-| `run-sales-ops` | Builds customer handoff, pipeline, and CRM-aware operational workflows in Hive. |
-| `run-services-ops` | Designs services delivery, time, approvals, and invoice-prep workflows in Hive. |
-| `work-with-connected-content` | Combines Hive execution with connected content sources when the user's environment already provides them. |
+| `hive-manage-hive-work` | Creates, updates, organizes, assigns, and summarizes actions and projects in Hive. |
+| `hive-bootstrap-hive-workspace` | Recommends a full Hive setup for launches, agencies, customer operations, onboarding, strategic planning, and other team workflows. |
+| `hive-design-hive-form` | Designs request and intake forms that create actions, projects, and follow-up flows. |
+| `hive-build-hive-workflow` | Creates recurring and event-based Hive automations from natural language. |
+| `hive-track-hive-goals` | Reviews goal progress, risks, and next actions. |
+| `hive-summarize-hive-dashboard` | Produces executive summaries from dashboards, reporting views, and project health signals. |
+| `hive-run-meeting-followup` | Turns notes and meetings into recap output, owners, and next-step actions. |
+| `hive-search-hive-knowledge` | Searches notes and workspace context before guessing. |
+| `hive-run-sales-ops` | Builds customer handoff, pipeline, and CRM-aware operational workflows in Hive. |
+| `hive-run-services-ops` | Designs services delivery, time, approvals, and invoice-prep workflows in Hive. |
+| `hive-work-with-connected-content` | Combines Hive execution with connected content sources when the user's environment already provides them. |
 
 #### Agents
 
@@ -140,7 +140,7 @@ The plugin makes requests to:
 | `app.hive.com` | REST API v1 |
 | `prod-gql.hive.com` | GraphQL API v2 |
 
-The `find-related-work` and `open-pr` flows can also use GitHub tooling that is already available in the user's Cursor environment. The plugin does not bundle a separate GitHub MCP server.
+The `hive-find-related-work` and `hive-open-pr` flows can also use GitHub tooling that is already available in the user's Cursor environment. The plugin does not bundle a separate GitHub MCP server.
 
 All Hive API traffic is over HTTPS. No other external services are contacted by default.
 
@@ -159,12 +159,12 @@ All Hive API traffic is over HTTPS. No other external services are contacted by 
 **Standup summary**
 > "What did I do yesterday?" / "Generate my standup"
 
-Uses `daily-standup-helper`. Queries completed and modified actions from the last 24 hours, outputs a grouped summary.
+Uses `hive-daily-standup-helper`. Queries completed and modified actions from the last 24 hours, outputs a grouped summary.
 
 **Related work lookup**
 > "Find related work for <https://app.hive.com/workspace/.../action/ABC123>"
 
-Uses `find-related-work`. Searches Hive for similar tickets, searches git for commits touching the same code, and links them together.
+Uses `hive-find-related-work`. Searches Hive for similar tickets, searches git for commits touching the same code, and links them together.
 
 **API integration help**
 > "How do I create an action with the Hive API?"
@@ -174,12 +174,12 @@ Loads `hive-api` and returns the exact endpoint, required fields, and a working 
 **Solutions engineer agent**
 > "Build a script that fetches all of the Hive actions assigned to a user X in project Y and ensures they all have custom field value Z"
 
-The `solutions-engineer` agent picks the right API surface (REST vs GraphQL) and produces the script.
+The `hive-solutions-engineer` agent picks the right API surface (REST vs GraphQL) and produces the script.
 
 **Open a pull request**
 > "Open a PR for this branch" / "Create a PR and link it to ACTION_ID"
 
-Uses `open-pr`. Pushes the branch, creates the GitHub PR, and attaches the branch to the Hive action in context when the needed GitHub tooling is available.
+Uses `hive-open-pr`. Pushes the branch, creates the GitHub PR, and attaches the branch to the Hive action in context when the needed GitHub tooling is available.
 
 ### Hive workflow examples
 

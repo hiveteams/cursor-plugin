@@ -1,5 +1,5 @@
 ---
-name: daily-standup-helper
+name: hive-daily-standup-helper
 description: Generates a daily standup summary from Hive. Queries the user's assigned actions for status changes in the last 24 hours and formats them into a standup update. Use when the user asks for a standup, daily update, status summary, or "what did I do yesterday".
 ---
 

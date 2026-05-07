@@ -1,5 +1,5 @@
 ---
-name: open-pr
+name: hive-open-pr
 description: Creates a GitHub pull request and attaches it to a Hive action when GitHub tooling is already available in the user's Cursor environment. Automatically links the branch to the Hive action in context, or asks which action to use. Use when the user wants to open a PR, create a pull request, submit changes for review, or push a branch for merging.
 ---
 

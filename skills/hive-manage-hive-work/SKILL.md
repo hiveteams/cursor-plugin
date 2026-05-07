@@ -1,5 +1,5 @@
 ---
-name: manage-hive-work
+name: hive-manage-hive-work
 description: Manage Hive actions and projects from natural language. Use when the user wants to create, update, organize, assign, prioritize, or summarize work in Hive.
 ---
 

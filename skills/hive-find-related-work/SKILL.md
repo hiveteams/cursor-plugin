@@ -1,5 +1,5 @@
 ---
-name: find-related-work
+name: hive-find-related-work
 description: Finds work related to a Hive ticket by searching Hive actions and git history for similar code changes. Accepts a Hive action URL or action ID as input. Use when the user asks for related work, prior art, similar tickets, related commits, or implementation context for a ticket.
 ---
 
