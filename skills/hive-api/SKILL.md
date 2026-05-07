@@ -200,5 +200,4 @@ For detailed endpoint parameters, request/response schemas, and examples:
 - [Object Schema Map](docs/objects/index.md)
 - [Webhooks Guide](reference/webhooks.md)
 - [GraphQL v2 Endpoints Index](docs/v2/graphql/index.md)
-- [GraphQL v2 Schema Snapshot](docs/v2/graphql/schema.json)
 - Raw OpenAPI docs in [docs/](docs/) directory
