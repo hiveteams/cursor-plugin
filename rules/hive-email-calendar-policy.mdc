@@ -1,6 +1,5 @@
 ---
 description: Email and calendar guardrails for the Hive plugin.
-alwaysApply: true
 ---
 
 # Hive Email And Calendar Policy

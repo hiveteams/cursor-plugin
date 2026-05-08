@@ -1,6 +1,5 @@
 ---
 description: Reporting and summarization rules for Hive dashboards, goals, and lists.
-alwaysApply: true
 ---
 
 # Hive Reporting And Pagination

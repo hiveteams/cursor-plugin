@@ -1,5 +1,5 @@
 ---
-name: design-hive-form
+name: hive-design-hive-form
 description: Design and create Hive forms for intake, requests, and structured data capture. Use when the user wants to turn repeated requests into a form that creates actions, projects, or email follow-ups.
 ---
 

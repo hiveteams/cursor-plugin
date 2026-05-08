@@ -1,5 +1,5 @@
 ---
-name: run-meeting-followup
+name: hive-run-meeting-followup
 description: Turn meeting context into structured follow-up in Hive. Use when the user wants notes distilled into decisions, owners, next steps, drafts, or scheduled follow-up work.
 ---
 

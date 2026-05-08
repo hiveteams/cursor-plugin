@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "Hive": {
+    "hive": {
       "url": "https://hive-mind.hive.com/mcp"
     }
   }

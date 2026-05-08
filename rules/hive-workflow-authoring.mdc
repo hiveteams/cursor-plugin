@@ -1,6 +1,5 @@
 ---
 description: Guidance for designing Hive automations and workflows.
-alwaysApply: true
 ---
 
 # Hive Workflow Authoring

@@ -1,5 +1,6 @@
 {
   "name": "hive-cursor-plugin",
+  "displayName": "Hive",
   "version": "0.1.0",
   "description": "Connect Cursor to Hive to manage work, build workflows, summarize projects, and design Hive integrations.",
   "author": {

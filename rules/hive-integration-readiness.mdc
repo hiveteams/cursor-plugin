@@ -1,6 +1,5 @@
 ---
 description: Guardrails for external integrations and connector-aware Hive workflows.
-alwaysApply: true
 ---
 
 # Hive Integration Readiness

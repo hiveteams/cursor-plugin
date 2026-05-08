@@ -1,5 +1,5 @@
 ---
-name: solutions-engineer
+name: hive-solutions-engineer
 description: Hive solutions engineer for API integrations and implementation delivery. Use proactively when users need Hive API requests, scripts containing API requests, webhook workflows, technical discovery, implementation guidance, or troubleshooting against the Hive platform.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: daily-standup-helper
+name: hive-daily-standup-helper
 description: Generates a daily standup summary from Hive. Queries the user's assigned actions for status changes in the last 24 hours and formats them into a standup update. Use when the user asks for a standup, daily update, status summary, or "what did I do yesterday".
 ---
 
@@ -17,7 +17,7 @@ Use the Hive MCP server for all Hive data access.
 
 1. Resolve the user and workspace.
    - First read `hive-profile.json`.
-   - If `activeWorkspaceId` is present, use it as the workspace ID.
+   - If `activeWorkspaceId` is a non-empty string, use it as the workspace ID.
    - Otherwise call `getUsersWorkspaces` and use the active workspace if available, or the primary workspace as fallback.
    - Use the returned current user ID for the `assignees` filter.
 

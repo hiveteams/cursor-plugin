@@ -1,5 +1,5 @@
 ---
-name: summarize-hive-dashboard
+name: hive-summarize-hive-dashboard
 description: Summarize Hive dashboards, reporting views, and project health into decision-ready updates. Use when the user wants an executive summary, status review, or concise reporting narrative from Hive data.
 ---
 
